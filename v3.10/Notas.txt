@@ -1,0 +1,120 @@
+HAZELCAST:
+=========
+
+	Hazelcast es una plataforma java que brinda una grid de datos en memoria, ello totalmente distribuido, soporta:
+	
+	- Alta escalabilidad.
+	- Distribuicion de datos en un cluster.
+	- Auto descubrimiento de nodos y sincronizacion inteligente.
+	
+	El framework brinda caracteristicas como:
+	- Distributed Data Structure.
+	- Distributed Compute.
+	- Distributed Query.
+	
+	Hazelcast es un cluster, este cluster trabajo con miembros, tambien llamados nodos en hazelcast, estos nodos son
+	agregados automaticamente al cluster. Este mecanismo toma lugar de varias formas distintas, independiente del hecho
+	del descubrimiento y registro de los miembros en el cluster, la comunicacion una vez realizado ello es mediante TCP-IP.
+	
+	Entre los mecanismos de descubrimiento tenemos:
+	
+	- TCP, con ello se da  FULL soporte a hazelcast en cluster.
+	- Multicast, no recomendado para produccion debido a que mayormente los paquetes UDP son bloqueados en estos tipos
+		de ambientes.
+	- AWS Cloud discovery
+	- Apache Jclouds
+	- Azure cloud dicovery
+	- Zookeeper cloud discovery
+	- Consul cloud discovery
+	- Eureka cloud discovery
+	- Kubernetes cloud discovery
+	- otros.
+
+
+Descubrimiento mediante TCP:
+---------------------------
+	Para configurar un cluster tcp-ip, se debe listar todos o un subconjunto de los miembros del cluster, ya sea por
+	el hostname o por la direccion ip, no es obligatorio listar todos los miembros del cluster pero si al menos uno
+	de los miembros listados debe estar activo.
+	
+	Para configurar este entorno, se debe configurar a enabled="false" la seccion multicast, y en la seccion tcp-ip
+	enabled="true", luego agregar al menos un miembro activo, en <member> tambien se puede agregar un rango de ips,
+	por ejemplo: <member>192.168.1.0-15</member> o tambien con una determinado puerto: <member>192.168.1.2:5789</member>
+	Si no se provee un puerto hazelcast probara con el puerto 5701, luego el 5702, 5703 y asi...
+	
+	By default, Hazelcast binds to all local network interfaces to accept incoming traffic. You can change this 
+	behavior using the system property hazelcast.socket.bind.any. If you set this property to false, Hazelcast 
+	uses the interfaces specified in the interfaces element (please refer to the Interfaces Configuration section).
+	If no interfaces are provided, then it will try to resolve one interface to bind from the member elements.
+	
+	
+
+Configuración:
+-------------
+
+	Hazelcast se puede configurar de forma declarativa con el uso del archivo hazelcast.xml, el cual debe estar ubicado
+	en la carpeta la raiz del classpath, o tambien de forma	programatica.
+
+Pruebas:
+-------
+	Prueba 1:
+		Se tiene la aplicacion(jar) hazelcast, la cual sera desplegada en dos nodos para poder ver como se registra uno contra el otro:
+		Servidor 1:
+			IP: 192.168.1.42
+			App desplegada: hazelcast.jar
+			hazelcast.xml:
+				<network>
+					<port auto-increment="true" port-count="20">5701</port>
+					<join>
+						<multicast enabled="false">
+						</multicast>
+						<tcp-ip enabled="true">
+						</tcp-ip>
+					</join>
+				</network>
+			
+			Notas:
+				Esta aplicacion es la que se lanza primero pues es agnostica de cuantos miembros hay en el cluster.
+		Servidor 2:
+			IP: 10.0.0.7
+			App desplegada: hazelcast_miembro2.jar
+			hazelcast.xml:
+				<network>
+					<port auto-increment="true" port-count="20">5701</port>
+					<join>
+						<multicast enabled="false">
+						</multicast>
+						<tcp-ip enabled="true">
+							<member>192.168.1.42</member>
+						</tcp-ip>
+					</join>
+				</network>
+			
+			Notas:
+				Esta aplicacion es la que se lanza luego y que se registrara contra el miembro 192.168.1.42.
+				
+		En las consolas de los 2 servidores debe aparecer lo siguiente:
+			Members {size:2, ver:2} [
+				Member [192.168.1.42]:5701 - 714bf8d7-7fa4-48ac-9bb1-a3328b5364fc this
+				Member [10.0.0.7]:5701 - f1e96ada-e8c4-47dc-97d8-3fa36a9eb593
+			]
+		
+
+Notas:
+-----
+	- Por defecto la seccion tcp-ip puede ir sin ningun member, ejemplo:
+		<tcp-ip enabled="true">
+		</tcp-ip>
+	  
+	  Como tambien puede se puede agregar su propia interfaz o miembro, ejemplo:
+	  
+	  <tcp-ip enabled="true">
+	  	<interface>192.168.1.42</interface>
+	  </tcp-ip>
+	  
+	  En este caso hazelcast buscara miembros sobre los demas puertos(5702,5703) de esa direccion. 
+
+URLs:
+----
+	[1] - http://www.baeldung.com/java-hazelcast
+	[2] - http://docs.hazelcast.org/docs/3.10.3/manual/html-single/index.html
