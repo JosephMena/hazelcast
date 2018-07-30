@@ -7,10 +7,41 @@ HAZELCAST:
 	- Distribuicion de datos en un cluster.
 	- Auto descubrimiento de nodos y sincronizacion inteligente.
 	
+	- The data is always stored in-memory (RAM) of the servers
+	- Multiple copies are stored in multiple machines for automatic data recovery in case of single or multiple server failures
+	- The data model is object-oriented and non-relational
+	- Servers can be dynamically added or removed to increase the amount of CPU and RAM
+	- The data can be persisted from Hazelcast to a relational or NoSQL database
+	- A Java Map API accesses the distributed key-value store
+	
 	El framework brinda caracteristicas como:
 	- Distributed Data Structure.
 	- Distributed Compute.
 	- Distributed Query.
+
+Arquitectura:
+------------
+	
+	La arquitectura de hazelcast [3], es una arquitectura IMDG (In Memory Data Grid), la cual provee alta disponibilidad y escalabilidad
+	de datos a traves de multiples maquinas o servidores.
+	
+	Hazelcast puede ser configurado y desplegado en dos formas:
+	
+	Arquitectura embebida:
+		Donde el grid de memoria reside sobre cada aplicacion desplegada en un cluster de aplicaciones, ejemplo:
+		Dado un proyecto de ventas, este proyecto(ear) es desplegado sobre un ambiente clusterizado WAS, este ambiente cuenta de dos nodos,
+		cuando el proyecto ventar.ear es desplegado sobre los nodos del cluster was se crean en esos mismos nodos, las instancias del cluster
+		hazelcast, es decir estas instancias residen sobre el mismo cluster donde se instalo ventas.ear, y hay tantos nodos hazelcast como nodos
+		disponga el cluster was donde esta ventas.ear.
+		
+	Arquitectura cliente-servidor:
+		
+		En esta arquitectura en la aplicacion ventas no esta desplegado el hazelcast, si no que la aplicacion actua como cliente conectandose
+		a un servidor hazelcast remoto, es decir hazelcast es desplegado sobre servidores aislados de la aplicacion.
+		
+
+Clustering:
+-------
 	
 	Hazelcast es un cluster, este cluster trabajo con miembros, tambien llamados nodos en hazelcast, estos nodos son
 	agregados automaticamente al cluster. Este mecanismo toma lugar de varias formas distintas, independiente del hecho
@@ -29,6 +60,7 @@ HAZELCAST:
 	- Eureka cloud discovery
 	- Kubernetes cloud discovery
 	- otros.
+
 
 
 Descubrimiento mediante TCP:
@@ -118,3 +150,4 @@ URLs:
 ----
 	[1] - http://www.baeldung.com/java-hazelcast
 	[2] - http://docs.hazelcast.org/docs/3.10.3/manual/html-single/index.html
+	[3] - https://hazelcast.com/use-cases/imdg/
