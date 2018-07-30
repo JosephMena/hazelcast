@@ -89,7 +89,7 @@ Configuración:
 
 Pruebas:
 -------
-	Prueba 1:
+	Prueba 1 (PoC1):
 		Se tiene la aplicacion(jar) hazelcast, la cual sera desplegada en dos nodos para poder ver como se registra uno contra el otro:
 		Servidor 1:
 			IP: 192.168.1.42
@@ -130,7 +130,10 @@ Pruebas:
 				Member [192.168.1.42]:5701 - 714bf8d7-7fa4-48ac-9bb1-a3328b5364fc this
 				Member [10.0.0.7]:5701 - f1e96ada-e8c4-47dc-97d8-3fa36a9eb593
 			]
-		
+	Prueba 2 (PoC2):	
+		Usando la Poc1, se crea un cliente hazelcast, este cliente se conectara al cluster hazelcast creado en la PoC 1 y creara un mapa
+		que luego con el swith correcto entre los metodos crearMapDistribuido(instancia) y app.leerMapDistribuido(instancia) se puede ver 
+		el funcionamiento del IMDG.
 
 Notas:
 -----
@@ -145,7 +148,10 @@ Notas:
 	  </tcp-ip>
 	  
 	  En este caso hazelcast buscara miembros sobre los demas puertos(5702,5703) de esa direccion. 
-
+	  
+	- Cuando se inicia el app hazelcast-client este no termina(finaliza, muere) cuando se ejecuta la ultima linea de codigo, es como si quedara
+	  un hilo corriendo la aplicacion, se presume que es el hilo del hazelcast client(el jar), esto podria traer impacto en aplicaciones, analizarlo.
+	  
 URLs:
 ----
 	[1] - http://www.baeldung.com/java-hazelcast
