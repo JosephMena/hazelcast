@@ -7,10 +7,10 @@ HAZELCAST:
 	- Distribuicion de datos en un cluster.
 	- Auto descubrimiento de nodos y sincronizacion inteligente.
 	
-	- The data is always stored in-memory (RAM) of the servers
+	- La informacion es siempre guardad en memoria (RAM) de los servidores
 	- Multiple copies are stored in multiple machines for automatic data recovery in case of single or multiple 
 	  server failures
-	- The data model is object-oriented and non-relational
+	- El modelo de datos es orientado a objetos y no relacional.
 	- Servers can be dynamically added or removed to increase the amount of CPU and RAM
 	- The data can be persisted from Hazelcast to a relational or NoSQL database
 	- A Java Map API accesses the distributed key-value store
@@ -24,8 +24,7 @@ Arquitectura:
 ------------
 	
 	La arquitectura de hazelcast [3], es una arquitectura IMDG (In Memory Data Grid), la cual provee alta disponibilidad 
-	y escalabilidad
-	de datos a traves de multiples maquinas o servidores.
+	y escalabilidad de datos a traves de multiples maquinas o servidores.
 	
 	Hazelcast puede ser configurado y desplegado en dos formas:
 	
@@ -73,16 +72,15 @@ Descubrimiento mediante TCP:
 	de los miembros listados debe estar activo.
 	
 	Para configurar este entorno, se debe configurar a enabled="false" la seccion multicast, y en la seccion tcp-ip
-	enabled="true", luego agregar al menos un miembro activo, en <member> tambien se puede agregar un rango de ips,
+	enabled="true", luego agregar al menos un miembro activo, en <member>, tambien se puede agregar un rango de ips,
 	por ejemplo: <member>192.168.1.0-15</member> o tambien con una determinado puerto: <member>192.168.1.2:5789</member>
 	Si no se provee un puerto hazelcast probara con el puerto 5701, luego el 5702, 5703 y asi...
 	
-	By default, Hazelcast binds to all local network interfaces to accept incoming traffic. You can change this 
-	behavior using the system property hazelcast.socket.bind.any. If you set this property to false, Hazelcast 
-	uses the interfaces specified in the interfaces element (please refer to the Interfaces Configuration section).
-	If no interfaces are provided, then it will try to resolve one interface to bind from the member elements.
-	
-	
+	Por defecto, hazelcast enlaza a todas las interfaces de red para aceptar el trafico entrante. Se puede cambiar este 
+	comportamiento usando el system property hazelcast.socket.bind.any. Si se configura esta propiedad a false, Hazelcast 
+	usa la interface especificada en el elemento interfaces (leer la seccion de Interfaces).
+	Si no se provee ninguna interfas, then it will try to resolve one interface to bind from the member elements.
+		
 
 Configuración:
 -------------
