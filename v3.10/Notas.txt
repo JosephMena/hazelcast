@@ -8,7 +8,8 @@ HAZELCAST:
 	- Auto descubrimiento de nodos y sincronizacion inteligente.
 	
 	- The data is always stored in-memory (RAM) of the servers
-	- Multiple copies are stored in multiple machines for automatic data recovery in case of single or multiple server failures
+	- Multiple copies are stored in multiple machines for automatic data recovery in case of single or multiple 
+	  server failures
 	- The data model is object-oriented and non-relational
 	- Servers can be dynamically added or removed to increase the amount of CPU and RAM
 	- The data can be persisted from Hazelcast to a relational or NoSQL database
@@ -22,22 +23,24 @@ HAZELCAST:
 Arquitectura:
 ------------
 	
-	La arquitectura de hazelcast [3], es una arquitectura IMDG (In Memory Data Grid), la cual provee alta disponibilidad y escalabilidad
+	La arquitectura de hazelcast [3], es una arquitectura IMDG (In Memory Data Grid), la cual provee alta disponibilidad 
+	y escalabilidad
 	de datos a traves de multiples maquinas o servidores.
 	
 	Hazelcast puede ser configurado y desplegado en dos formas:
 	
 	Arquitectura embebida:
 		Donde el grid de memoria reside sobre cada aplicacion desplegada en un cluster de aplicaciones, ejemplo:
-		Dado un proyecto de ventas, este proyecto(ear) es desplegado sobre un ambiente clusterizado WAS, este ambiente cuenta de dos nodos,
-		cuando el proyecto ventar.ear es desplegado sobre los nodos del cluster was se crean en esos mismos nodos, las instancias del cluster
-		hazelcast, es decir estas instancias residen sobre el mismo cluster donde se instalo ventas.ear, y hay tantos nodos hazelcast como nodos
-		disponga el cluster was donde esta ventas.ear.
+		Dado un proyecto de ventas, este proyecto(ear) es desplegado sobre un ambiente clusterizado WAS, este ambiente 
+		cuenta de dos nodos, cuando el proyecto ventar.ear es desplegado sobre los nodos del cluster was se crean en esos 
+		mismos nodos, las instancias del cluster hazelcast, es decir estas instancias residen sobre el mismo cluster donde 
+		se instalo ventas.ear, y hay tantos nodos hazelcast como nodos disponga el cluster was donde esta ventas.ear.
 		
 	Arquitectura cliente-servidor:
 		
-		En esta arquitectura en la aplicacion ventas no esta desplegado el hazelcast, si no que la aplicacion actua como cliente conectandose
-		a un servidor hazelcast remoto, es decir hazelcast es desplegado sobre servidores aislados de la aplicacion.
+		En esta arquitectura en la aplicacion ventas no esta desplegado el hazelcast, si no que la aplicacion actua como 
+		cliente conectandose a un servidor hazelcast remoto, es decir hazelcast es desplegado sobre servidores aislados 
+		de la aplicacion.
 		
 
 Clustering:
@@ -90,7 +93,9 @@ Configuración:
 Pruebas:
 -------
 	Prueba 1 (PoC1):
-		Se tiene la aplicacion(jar) hazelcast, la cual sera desplegada en dos nodos para poder ver como se registra uno contra el otro:
+		Se tiene la aplicacion(jar) hazelcast, la cual sera desplegada en dos nodos para poder ver como se registra uno 
+		contra el otro:
+		
 		Servidor 1:
 			IP: 192.168.1.42
 			App desplegada: hazelcast.jar
@@ -131,9 +136,9 @@ Pruebas:
 				Member [10.0.0.7]:5701 - f1e96ada-e8c4-47dc-97d8-3fa36a9eb593
 			]
 	Prueba 2 (PoC2):	
-		Usando la Poc1, se crea un cliente hazelcast, este cliente se conectara al cluster hazelcast creado en la PoC 1 y creara un mapa
-		que luego con el swith correcto entre los metodos crearMapDistribuido(instancia) y app.leerMapDistribuido(instancia) se puede ver 
-		el funcionamiento del IMDG.
+		Usando la Poc1, se crea un cliente hazelcast, este cliente se conectara al cluster hazelcast creado en la PoC 1 y
+		creara un mapa que luego con el swith correcto entre los metodos crearMapDistribuido(instancia) y 
+		app.leerMapDistribuido(instancia) se puede ver el funcionamiento del IMDG.
 
 Notas:
 -----
@@ -149,8 +154,9 @@ Notas:
 	  
 	  En este caso hazelcast buscara miembros sobre los demas puertos(5702,5703) de esa direccion. 
 	  
-	- Cuando se inicia el app hazelcast-client este no termina(finaliza, muere) cuando se ejecuta la ultima linea de codigo, es como si quedara
-	  un hilo corriendo la aplicacion, se presume que es el hilo del hazelcast client(el jar), esto podria traer impacto en aplicaciones, analizarlo.
+	- Cuando se inicia el app hazelcast-client este no termina(finaliza, muere) cuando se ejecuta la ultima linea de codigo,
+	  es como si quedara un hilo corriendo la aplicacion, se presume que es el hilo del hazelcast client(el jar), esto 
+	  podria traer impacto en aplicaciones, analizarlo.
 	  
 URLs:
 ----
